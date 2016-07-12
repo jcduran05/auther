@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('LoginCtrl', function ($scope, Login) {
+app.controller('LoginCtrl', function ($scope, Login, $state) {
     $scope.submit = function() {
       var jsonData = {
         email : $scope.loginForm.email,
@@ -10,7 +10,9 @@ app.controller('LoginCtrl', function ($scope, Login) {
       var login = Login.loginUser(jsonData);
 
       login.then(function(data) {
-        console.log(data);
+       if(data.status == 204){
+          $state.go('stories') 
+       }
       })
     }
 });

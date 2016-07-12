@@ -8,4 +8,8 @@ router.use('/stories', require('./stories/story.router'));
 
 router.use('/login', require('./login/login.router'))
 
+router.use('/signup', require('./signup/singup.router'))
+
+router.use('/logout', require('./logout/logout.router'))
+
 module.exports = router;
