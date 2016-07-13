@@ -23,7 +23,7 @@ passport.use(
 
     User.findOrCreate({ where: {googleId: profile.id}, defaults: info})
     .spread(function(user) {
-  
+
       return done(null, user);
     })
     .catch(done);
@@ -32,8 +32,8 @@ passport.use(
 );
 
 passport.serializeUser(function(user, done) {
-    console.log(user);
-        done(null, user.id);
+    console.log(user.id);
+    done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {

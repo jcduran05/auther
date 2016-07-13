@@ -15,7 +15,7 @@ router.use('/logout', require('./logout/logout.router'));
 // router.use('/auth', require('./auth/auth.router'));
 
 router.get('/auth', function(req, res, next){
-  req.session.userId
+  console.log(req);
   console.log(req.session.userId);
   res.send('done')
 })
