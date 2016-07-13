@@ -23,6 +23,7 @@ passport.use(
 
     User.findOrCreate({ where: {googleId: profile.id}, defaults: info})
     .spread(function(user) {
+  
       return done(null, user);
     })
     .catch(done);

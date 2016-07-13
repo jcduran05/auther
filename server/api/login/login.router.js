@@ -1,25 +1,38 @@
 var router = require('express').Router();
 var HttpError = require('../../utils/HttpError');
 // var Story = require('./story.model');
-var User = require('../users/user.model')
+var User = require('../users/user.model');
+var Passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
-router.post('/', function(req, res, next){
-	var password = req.body.password
-	var email = req.body.email
-	User.findOne({
+
+Passport.use('local-login', new LocalStrategy({
+		
+		usernameField : 'email',
+		passwordField : 'password'
+		},
+		
+		function(req, email, password, done){
+			User.findOne({
 		where: req.body
+			}, function(err ,user){
+				if (err){ return done(err)}
+				if(!email){ 
+					return done(null, false, {message: 'no email'})
+				}
+				console.log(user)
+				return done(null ,user)
+				}
+			)
 	})
-	.then(function(data){
-		if (!data){
-			res.sendStatus(401);
-		} else {
-			req.session.userId = data.id;
-			console.log('user logged in, this is req.sess: ', req.session);
-			console.log('req obj: ', req.sessionStore);
-			res.sendStatus(204);
-		}
-	})
-	.catch(next);
-})
+)
+
+
+router.post('/', Passport.authenticate('local-login', {
+	successRedirect : '/stories',
+	failureRedirect : '/login'
+	}));
+
+
 
 module.exports = router
